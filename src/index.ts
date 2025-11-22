@@ -6,14 +6,14 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { loadConfig } from './config.js';
 
-let genAI: GoogleGenerativeAI;
+let ai: GoogleGenAI;
 
 try {
   const config = loadConfig();
-  genAI = new GoogleGenerativeAI(config.geminiApiKey);
+  ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
 } catch (error) {
   console.error('Failed to load config:', error instanceof Error ? error.message : 'Unknown error');
   console.error('Make sure to create config.json from config.json.example');
@@ -78,23 +78,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
 
     try {
-      const model = genAI.getGenerativeModel({
+      const response = await ai.models.generateContent({
         model: 'gemini-3-pro-preview',
-        generationConfig: {
-          maxOutputTokens: max_tokens,
-          temperature: temperature,
-        },
+        contents: prompt,
       });
-
-      const result = await model.generateContent(prompt);
-      const response = result.response;
-      const text = response.text();
 
       return {
         content: [
           {
             type: 'text',
-            text: text || 'No response received',
+            text: response.text || 'No response received',
           },
         ],
       };
