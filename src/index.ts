@@ -37,7 +37,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: 'query_gemini',
-        description: 'Query Google Gemini 3 Pro Preview API with a prompt and get a response',
+        description: 'Query Google Gemini 3.1 Pro Preview API with a prompt and get a response',
         inputSchema: {
           type: 'object',
           properties: {
@@ -79,7 +79,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-3.1-pro-preview',
         contents: prompt,
       });
 

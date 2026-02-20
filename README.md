@@ -1,11 +1,11 @@
 # Gemini MCP Server
 
-A Model Context Protocol (MCP) server that provides access to Google's Gemini 3 Pro Preview API. This server runs locally via npx for seamless integration with Claude Code.
+A Model Context Protocol (MCP) server that provides access to Google's Gemini 3.1 Pro Preview API. This server runs locally via npx for seamless integration with Claude Code.
 
 ## Features
 
 - **Full MCP Protocol Support**: JSON-RPC 2.0 compliant MCP server implementation
-- **Gemini 3 Pro Preview**: Access to Google's latest Gemini model
+- **Gemini 3.1 Pro Preview**: Access to Google's latest Gemini model
 - **Local Execution**: Runs via npx for easy local development
 - **TypeScript Implementation**: Fully typed codebase with robust error handling
 - **Configurable Parameters**: Control temperature and max tokens
@@ -71,7 +71,7 @@ After adding the configuration, restart Claude Code to load the MCP server.
 
 ### query_gemini
 
-Query Google's Gemini 3 Pro Preview API:
+Query Google's Gemini 3.1 Pro Preview API:
 
 **Parameters:**
 - `prompt` (required): The prompt to send to Gemini
