@@ -9,6 +9,8 @@ import {
 import { GoogleGenAI } from '@google/genai';
 import { loadConfig } from './config.js';
 
+const DEFAULT_MODEL = 'gemini-3.1-pro-preview';
+
 let ai: GoogleGenAI;
 
 try {
@@ -61,6 +63,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['prompt'],
         },
       },
+      {
+        name: 'get_model_info',
+        description: 'Get information about a Gemini model',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            model: {
+              type: 'string',
+              description: 'The model to get info for',
+              default: DEFAULT_MODEL,
+            },
+          },
+        },
+      },
     ],
   };
 });
@@ -79,7 +95,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-3.1-pro-preview',
+        model: DEFAULT_MODEL,
         contents: prompt,
       });
 
@@ -97,6 +113,44 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           {
             type: 'text',
             text: `Error querying Gemini: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+
+  if (request.params.name === 'get_model_info') {
+    const { model = DEFAULT_MODEL } = (request.params.arguments || {}) as {
+      model?: string;
+    };
+
+    try {
+      const info = await ai.models.get({ model });
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                name: info.name,
+                displayName: info.displayName,
+                version: info.version,
+                description: info.description,
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving model info: ${error instanceof Error ? error.message : 'Unknown error'}`,
           },
         ],
         isError: true,
