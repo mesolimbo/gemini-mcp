@@ -10,7 +10,7 @@ import { GoogleGenAI } from '@google/genai';
 import { createRequire } from 'module';
 import { loadConfig } from './config.js';
 
-const DEFAULT_MODEL = 'gemini-3.1-pro-preview';
+const DEFAULT_MODEL = 'gemini-3.5-flash';
 
 const pkg = createRequire(import.meta.url)('../package.json') as {
   name: string;
@@ -45,7 +45,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: 'query_gemini',
-        description: 'Query Google Gemini 3.1 Pro Preview API with a prompt and get a response',
+        description: 'Query Google Gemini 3.5 Flash API with a prompt and get a response',
         inputSchema: {
           type: 'object',
           properties: {
