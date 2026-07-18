@@ -1,7 +1,7 @@
 {
   "name": "gemini-mcp-server",
-  "version": "1.0.2",
-  "description": "MCP server for Google Gemini 3.5 Flash API queries",
+  "version": "1.0.3",
+  "description": "MCP server for querying Google's latest Gemini Pro model",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
